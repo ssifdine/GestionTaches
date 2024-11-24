@@ -1,35 +1,53 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/edit_task_title"
+    <!-- Titre de la tâche -->
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Titre de la tâche"
-        android:inputType="text"
-        tools:ignore="HardcodedText" />
+        android:layout_marginBottom="12dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_task_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Titre de la tâche"
+            android:inputType="text"
+            tools:ignore="HardcodedText" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/edit_task_description"
+    <!-- Description -->
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Description"
-        android:inputType="text"
-        tools:ignore="HardcodedText" />
+        android:layout_marginBottom="12dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_task_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:inputType="text"
+            tools:ignore="HardcodedText" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/edit_task_date"
+    <!-- Date -->
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Date (AAAA-MM-JJ)"
-        android:inputType="date"
-        tools:ignore="HardcodedText" />
+        android:layout_marginBottom="12dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_task_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Date (AAAA-MM-JJ)"
+            android:inputType="date"
+            tools:ignore="HardcodedText" />
+    </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Spinner pour le statut -->
     <Spinner
         android:id="@+id/spinner_task_status"
         android:layout_width="match_parent"

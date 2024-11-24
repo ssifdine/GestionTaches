@@ -10,7 +10,7 @@ import android.view.animation.AnimationUtils;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ma.saifdine.hd.R;
-import ma.saifdine.hd.ui.view.TaskActivity;
+import ma.saifdine.hd.ui.view.task.TaskActivity;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
