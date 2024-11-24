@@ -40,4 +40,15 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    dependencies {
+        implementation(libs.lifecycle.livedata.ktx)
+        implementation(libs.lifecycle.viewmodel.ktx)
+        implementation(libs.room.runtime)
+        annotationProcessor(libs.room.compiler)
+    }
+
+    // Dépendance pour FloatingActionButton
+    implementation(libs.material.v190)
+
 }

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">GestionTaches</string>
+    <string name="toolbar_title">Liste des tâches</string>
+    <string name="todo">Ajouter une tâche</string>
+
+    <string-array name="task_status_array">
+        <item>À faire</item>
+        <item>En cours</item>
+        <item>Terminé</item>
+    </string-array>
 </resources>

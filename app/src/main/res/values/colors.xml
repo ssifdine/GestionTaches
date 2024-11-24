@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Couleurs de base -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Couleurs primaires -->
+    <color name="primary">#6200EE</color>
+    <color name="primary_dark">#3700B3</color>
+    <color name="primary_light">#BB86FC</color>
+
+    <!-- Couleurs secondaires -->
+    <color name="secondary">#03DAC5</color>
+    <color name="secondary_dark">#018786</color>
+    <color name="secondary_light">#66FFF9</color>
+
+    <!-- Couleurs de fond -->
+    <color name="background">#F5F5F5</color>
+    <color name="surface">#FFFFFF</color>
+
+    <!-- Couleurs d'accentuation -->
+    <color name="accent">#FFC107</color>
+    <color name="accent_light">#FFD54F</color>
+    <color name="accent_dark">#FFA000</color>
+
+    <!-- Couleurs pour le texte -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_hint">#BDBDBD</color>
+    <color name="text_error">#D32F2F</color>
+
+    <!-- Couleurs pour les états -->
+    <color name="success">#4CAF50</color>
+    <color name="warning">#FF9800</color>
+    <color name="error">#F44336</color>
+    <color name="info">#2196F3</color>
+
+    <!-- Couleurs transparentes -->
+    <color name="transparent">#00000000</color>
+    <color name="overlay">#80000000</color> <!-- 50% noir -->
+
+    <!-- Couleurs personnalisées -->
+    <color name="purple_500">#6200EE</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="teal_200">#03DAC5</color>
+
+    <!-- Couleurs ombrées -->
+    <color name="shadow_dark">#66000000</color> <!-- 40% noir -->
+    <color name="shadow_light">#33FFFFFF</color> <!-- 20% blanc -->
 </resources>

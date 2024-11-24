@@ -1,0 +1,37 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/edit_task_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Titre de la tâche"
+        android:inputType="text"
+        tools:ignore="HardcodedText" />
+
+    <EditText
+        android:id="@+id/edit_task_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description"
+        android:inputType="text"
+        tools:ignore="HardcodedText" />
+
+    <EditText
+        android:id="@+id/edit_task_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date (AAAA-MM-JJ)"
+        android:inputType="date"
+        tools:ignore="HardcodedText" />
+
+    <Spinner
+        android:id="@+id/spinner_task_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
