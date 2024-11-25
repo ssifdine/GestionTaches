@@ -1,27 +1,30 @@
 package ma.saifdine.hd.ui.view.task;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Date;
+import java.util.Locale;
 
 import ma.saifdine.hd.R;
 import ma.saifdine.hd.domaine.model.Task;
@@ -30,160 +33,80 @@ import ma.saifdine.hd.ui.viewmodel.TaskViewModel;
 
 public class TaskActivity extends AppCompatActivity {
 
-    private TaskViewModel taskViewModel;  // ViewModel pour interagir avec les données
-    private TaskAdapter taskAdapter;     // Adaptateur pour afficher les tâches
+    private TaskViewModel taskViewModel;
     private FloatingActionButton fabAddTask;
-    private Toolbar toolbar;
+    private TaskAdapter taskAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
-        // Initialisation de la Toolbar
-        initToolbar();
-
-        // Initialisation du RecyclerView et de son adaptateur
         initRecyclerView();
-
-        // Initialisation de la FloatingActionButton
         initFloatingActionButton();
-
-        // Configuration du ViewModel et observation des données
         setupViewModel();
     }
 
-    /**
-     * Méthode pour initialiser et configurer la Toolbar.
-     */
-    private void initToolbar() {
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.toolbar_title));  // Défini un titre à la Toolbar
-    }
-
-    /**
-     * Méthode pour initialiser le RecyclerView et configurer l'adaptateur.
-     */
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));  // Configuration en liste verticale
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Initialisation de l'adaptateur avec gestion des événements (clic court et long)
         taskAdapter = new TaskAdapter(new ArrayList<>(), new OnTaskClickListener() {
             @Override
             public void onTaskClick(Task task) {
                 Toast.makeText(TaskActivity.this, "Modifier : " + task.getTitle(), Toast.LENGTH_SHORT).show();
-                // Implémenter la logique de modification ici
             }
 
             @Override
             public void onTaskLongClick(Task task) {
-                taskViewModel.delete(task);  // Suppression via le ViewModel
+                taskViewModel.delete(task);
                 Toast.makeText(TaskActivity.this, "Supprimé : " + task.getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
         recyclerView.setAdapter(taskAdapter);
     }
 
-    /**
-     * Méthode pour initialiser la FloatingActionButton et gérer ses clics.
-     */
     private void initFloatingActionButton() {
         fabAddTask = findViewById(R.id.fab_add_task);
-        fabAddTask.setOnClickListener(v -> showAddTaskDialog());  // Affiche le dialog pour ajouter une tâche
+        fabAddTask.setOnClickListener(v -> showAddTaskDialog());
     }
 
-    /**
-     * Méthode pour configurer le ViewModel et observer les données.
-     */
     private void setupViewModel() {
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
-
-        // Observer les changements de la liste des tâches
         taskViewModel.getAllTasks().observe(this, tasks -> {
             if (tasks != null) {
-                taskAdapter.setTasks(tasks);  // Mettre à jour l'adaptateur
+                taskAdapter.setTasks(tasks);
             }
         });
     }
 
-    /**
-     * Méthode pour afficher une boîte de dialogue permettant d'ajouter une nouvelle tâche.
-     */
     private void showAddTaskDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme);
         builder.setTitle("Ajouter une nouvelle tâche");
         builder.setIcon(R.drawable.addtachexml);
 
-        // Charger le layout personnalisé pour le dialog
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_task, null);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_task, null);
         builder.setView(dialogView);
 
-        // Champs du layout
         EditText titleInput = dialogView.findViewById(R.id.edit_task_title);
         EditText descriptionInput = dialogView.findViewById(R.id.edit_task_description);
         EditText dateInput = dialogView.findViewById(R.id.edit_task_date);
-        Spinner statusSpinner = dialogView.findViewById(R.id.spinner_task_status);
+        AutoCompleteTextView statusSpinner = dialogView.findViewById(R.id.spinner_task_status);
 
-        // Configuration du Spinner pour le statut
         setupStatusSpinner(statusSpinner);
+        dateInput.setOnClickListener(v -> showDatePickerDialog(dateInput));
 
-        // Configuration des boutons du dialog
         builder.setPositiveButton("Ajouter", (dialog, which) -> handleAddTask(titleInput, descriptionInput, dateInput, statusSpinner));
         builder.setNegativeButton("Annuler", (dialog, which) -> dialog.dismiss());
 
-        // Personnalisation et affichage du dialog
-        showCustomDialog(builder);
-    }
-
-    /**
-     * Méthode pour configurer le Spinner des statuts.
-     */
-    private void setupStatusSpinner(Spinner spinner) {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.task_status_array,
-                android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
-
-    /**
-     * Méthode pour traiter l'ajout d'une nouvelle tâche.
-     */
-    private void handleAddTask(EditText titleInput, EditText descriptionInput, EditText dateInput, Spinner statusSpinner) {
-        String title = titleInput.getText().toString().trim();
-        String description = descriptionInput.getText().toString().trim();
-        String date = dateInput.getText().toString().trim();
-        String status = statusSpinner.getSelectedItem().toString();
-
-        if (title.isEmpty() || date.isEmpty()) {
-            Toast.makeText(this, "Le titre et la date sont obligatoires", Toast.LENGTH_SHORT).show();
-        } else {
-            Task newTask = new Task(title, description, date, status);
-            addTask(newTask);
-            Toast.makeText(this, "Tâche ajoutée avec succès", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    /**
-     * Méthode pour afficher le dialog avec des styles personnalisés.
-     */
-    private void showCustomDialog(AlertDialog.Builder builder) {
+        // Créer et afficher le dialog
         AlertDialog dialog = builder.create();
-        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.dialog_background);
-        dialog.getWindow().setWindowAnimations(R.style.DialogAnimation);
         dialog.show();
 
-        // Personnalisation des boutons
+        // Personnaliser les boutons du dialog
         customizeDialogButtons(dialog);
     }
 
-    /**
-     * Méthode pour personnaliser les boutons du dialog.
-     */
     private void customizeDialogButtons(AlertDialog dialog) {
         Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
@@ -195,9 +118,55 @@ public class TaskActivity extends AppCompatActivity {
         negativeButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
     }
 
-    /**
-     * Méthode pour ajouter une tâche via le ViewModel.
-     */
+    private void setupStatusSpinner(AutoCompleteTextView spinner) {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.task_status_array,
+                android.R.layout.simple_dropdown_item_1line
+        );
+        spinner.setAdapter(adapter);
+    }
+
+    private void showDatePickerDialog(EditText dateInput) {
+        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Sélectionnez une date")
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build();
+
+        datePicker.show(getSupportFragmentManager(), "DATE_PICKER");
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            String formattedDate = sdf.format(new Date(selection));
+            dateInput.setText(formattedDate);
+        });
+    }
+
+    private void handleAddTask(EditText titleInput, EditText descriptionInput, EditText dateInput, AutoCompleteTextView statusSpinner) {
+        String title = titleInput.getText().toString().trim();
+        String description = descriptionInput.getText().toString().trim();
+        String dateString = dateInput.getText().toString().trim();
+        String status = statusSpinner.getText().toString();
+
+        if (title.isEmpty() || dateString.isEmpty()) {
+            Toast.makeText(this, "Le titre et la date sont obligatoires", Toast.LENGTH_SHORT).show();
+        } else {
+            Date dueDate = parseDate(dateString);
+            Task newTask = new Task(title, description, dueDate, status);
+            addTask(newTask);
+            Toast.makeText(this, "Tâche ajoutée avec succès", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private Date parseDate(String dateString) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            return sdf.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private void addTask(Task task) {
         taskViewModel.insert(task);
     }

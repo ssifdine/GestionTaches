@@ -2,6 +2,14 @@
     <string name="app_name">GestionTaches</string>
     <string name="toolbar_title">Liste des tâches</string>
     <string name="todo">Ajouter une tâche</string>
+    <string name="titre_de_la_t_che">Titre de la tâche</string>
+    <string name="description_de_la_t_che">Description de la tâche</string>
+    <string name="date_de_la_t_che">Date de la tâche</string>
+    <string name="statut_de_la_t_che" />
+    <string name="statut_de_la_t_ches">Statut de la tâche</string>
+    <string name="date">Date</string>
+    <string name="description_de_la_t_ches">Description de la tâche</string>
+    <string name="titre_de_la_t_ches">Titre de la tâche</string>
 
     <string-array name="task_status_array">
         <item>À faire</item>

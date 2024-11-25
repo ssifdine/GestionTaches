@@ -3,6 +3,8 @@ package ma.saifdine.hd.domaine.model;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity(tableName = "tasks")
 public class Task {
 
@@ -10,12 +12,10 @@ public class Task {
     private int id;
     private String title;
     private String Description;
-    private String dueDate;
+    private Date dueDate; // Changer de String à Date
     private String status;
 
-
-
-    public Task(String title, String description, String dueDate, String status) {
+    public Task(String title, String description, Date dueDate, String status) {
         this.title = title;
         this.Description = description;
         this.dueDate = dueDate;
@@ -49,11 +49,11 @@ public class Task {
         Description = description;
     }
 
-    public String getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 

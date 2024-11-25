@@ -6,6 +6,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import ma.saifdine.hd.R;
 import ma.saifdine.hd.domaine.model.Task;
 
@@ -47,6 +50,9 @@ public class TaskViewHolder extends RecyclerView.ViewHolder {
     public void bind(Task task) {
         titleTextView.setText(task.getTitle()); // Affiche le titre
         statusTextView.setText(task.getStatus()); // Affiche le statut
-        dueDateTextView.setText(task.getDueDate()); // Affiche la date d'échéance
+        // Convertir la date en chaîne
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String formattedDate = dateFormat.format(task.getDueDate());
+        dueDateTextView.setText(formattedDate);// Affiche la date d'échéance
     }
 }
