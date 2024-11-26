@@ -1,4 +1,4 @@
-package ma.saifdine.hd.ui.view.task;
+package ma.saifdine.hd.ui.view.activity.task;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,7 @@ import java.util.List;
 
 import ma.saifdine.hd.R;
 import ma.saifdine.hd.domaine.model.Task;
-import ma.saifdine.hd.ui.view.task.listenner.OnTaskClickListener;
+import ma.saifdine.hd.ui.view.activity.task.listenner.OnTaskClickListener;
 
 /**
  * TaskAdapter est un adapter pour afficher une liste de tâches dans un RecyclerView.

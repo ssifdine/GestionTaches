@@ -1,4 +1,4 @@
-package ma.saifdine.hd.ui.view.task;
+package ma.saifdine.hd.ui.view.activity.task;
 
 import android.view.View;
 import android.widget.TextView;

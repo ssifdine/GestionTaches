@@ -1,4 +1,4 @@
-package ma.saifdine.hd.ui.view.task;
+package ma.saifdine.hd.ui.view.activity.task;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -28,7 +28,8 @@ import java.util.Locale;
 
 import ma.saifdine.hd.R;
 import ma.saifdine.hd.domaine.model.Task;
-import ma.saifdine.hd.ui.view.task.listenner.OnTaskClickListener;
+import ma.saifdine.hd.ui.view.activity.task.listenner.OnTaskClickListener;
+import ma.saifdine.hd.ui.view.dialog.ConfirmationDialog;
 import ma.saifdine.hd.ui.viewmodel.TaskViewModel;
 
 public class TaskActivity extends AppCompatActivity {
@@ -57,10 +58,22 @@ public class TaskActivity extends AppCompatActivity {
                 Toast.makeText(TaskActivity.this, "Modifier : " + task.getTitle(), Toast.LENGTH_SHORT).show();
             }
 
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onTaskLongClick(Task task) {
-                taskViewModel.delete(task);
-                Toast.makeText(TaskActivity.this, "Supprimé : " + task.getTitle(), Toast.LENGTH_SHORT).show();
+                ConfirmationDialog.show(
+                        TaskActivity.this,
+                        "Confirmation de suppression",
+                        "Êtes-vous sûr de vouloir supprimer la tâche \"" + task.getTitle() + "\" ?",
+                        getDrawable(R.drawable.supprimer), // Icône à afficher (modifiable)
+                        () -> { // Action de confirmation
+                            taskViewModel.delete(task);
+                            Toast.makeText(TaskActivity.this, "Tâche supprimée : " + task.getTitle(), Toast.LENGTH_SHORT).show();
+                        },
+                        () -> { // Action d'annulation
+                            Toast.makeText(TaskActivity.this, "Action annulée", Toast.LENGTH_SHORT).show();
+                        }
+                );
             }
         });
         recyclerView.setAdapter(taskAdapter);

@@ -13,7 +13,7 @@
         android:theme="@style/Theme.GestionTaches"
         tools:targetApi="31">
         <activity
-            android:name=".ui.view.splash.SplashActivity"
+            android:name=".ui.view.activity.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.view.task.TaskActivity"
+            android:name=".ui.view.activity.task.TaskActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
