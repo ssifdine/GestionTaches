@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import ma.saifdine.hd.R;
 import ma.saifdine.hd.domaine.model.Task;
@@ -37,15 +39,28 @@ public class TaskActivity extends AppCompatActivity {
     private TaskViewModel taskViewModel;
     private FloatingActionButton fabAddTask;
     private TaskAdapter taskAdapter;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
+        // Initialisation de la Toolbar
+        initToolbar();
+
         initRecyclerView();
         initFloatingActionButton();
         setupViewModel();
+    }
+
+    /**
+     * Méthode pour initialiser et configurer la Toolbar.
+     */
+    private void initToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.toolbar_title));  // Défini un titre à la Toolbar
     }
 
     private void initRecyclerView() {
