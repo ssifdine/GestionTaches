@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ma.saifdine.hd.R;
 import ma.saifdine.hd.ui.view.activity.task.TaskActivity;
+import ma.saifdine.hd.ui.view.activity.user.LoginActivity;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
@@ -27,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
 
         // Délai avant de passer à MainActivity (3 secondes)
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(SplashActivity.this, TaskActivity.class);
+            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
             startActivity(intent);
             finish(); // Fermer le Splash Screen
         }, 5000); // 5000 ms = 5 secondes

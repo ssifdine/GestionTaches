@@ -10,6 +10,19 @@
     <string name="date">Date</string>
     <string name="description_de_la_t_ches">Description de la tâche</string>
     <string name="titre_de_la_t_ches">Titre de la tâche</string>
+    <string name="don_t_have_an_account_register">Don\'t have an account? Register</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="loogin">Login</string>
+    <string name="login_icon">Login Icon</string>
+    <string name="register">Register</string>
+    <string name="name">Name</string>
+    <string name="eemail">Email</string>
+    <string name="passwordd">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="registere">Register</string>
+    <string name="already_have_an_account_login">Already have an account? Login</string>
 
     <string-array name="task_status_array">
         <item>À faire</item>

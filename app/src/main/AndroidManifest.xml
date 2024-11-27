@@ -13,6 +13,12 @@
         android:theme="@style/Theme.GestionTaches"
         tools:targetApi="31">
         <activity
+            android:name=".ui.view.activity.user.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.view.activity.user.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.view.activity.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
