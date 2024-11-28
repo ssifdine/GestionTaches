@@ -3,25 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="1dp">
 
-    <!-- Toolbar pour afficher le titre -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/accent"
-        android:elevation="4dp"
-        app:theme="@style/ToolbarTheme"
-        android:contentDescription="@string/toolbar_title"
-        tools:ignore="HardcodedText"/>
+    <!-- Inclure le Custom Toolbar -->
+    <include
+        android:id="@+id/custom_toolbar"
+        layout="@layout/custom_toolbar"/>
 
     <!-- RecyclerView pour afficher les tâches -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/custom_toolbar"
         android:layout_above="@+id/footerLayout"
         android:padding="8dp" />
 
@@ -44,5 +38,15 @@
             android:src="@drawable/addtachexml"
             android:tint="@color/black"
             app:backgroundTint="@color/accent" />
+
+<!--        &lt;!&ndash; Bouton de déconnexion &ndash;&gt;-->
+<!--        <Button-->
+<!--            android:id="@+id/btn_logout"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/d_connexion"-->
+<!--            android:textColor="@android:color/white"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:background="@color/accent" />-->
     </LinearLayout>
 </RelativeLayout>

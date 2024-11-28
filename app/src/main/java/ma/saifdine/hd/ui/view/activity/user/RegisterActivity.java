@@ -2,6 +2,7 @@ package ma.saifdine.hd.ui.view.activity.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import ma.saifdine.hd.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    // UI Components
     private TextInputEditText emailEditText, passwordEditText, confirmPasswordEditText;
     private TextInputLayout emailInputLayout, passwordInputLayout, confirmPasswordInputLayout;
     private MaterialButton registerButton;
@@ -20,9 +22,20 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register); // Assurez-vous que le bon layout est utilisé
+        setContentView(R.layout.activity_register);
 
-        // Initialiser les vues
+        // Initialize views
+        initViews();
+
+        // Set listeners
+        registerButton.setOnClickListener(v -> registerUser());
+        loginLink.setOnClickListener(v -> navigateToLogin());
+    }
+
+    /**
+     * Initialize all views from the layout
+     */
+    private void initViews() {
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
@@ -31,39 +44,79 @@ public class RegisterActivity extends AppCompatActivity {
         confirmPasswordInputLayout = findViewById(R.id.confirmPasswordInputLayout);
         registerButton = findViewById(R.id.registerButton);
         loginLink = findViewById(R.id.loginLink);
-
-        // Gérer le clic sur le bouton d'inscription
-        registerButton.setOnClickListener(v -> registerUser());
-
-        // Gérer le lien pour la connexion
-        loginLink.setOnClickListener(v -> navigateToLogin());
     }
 
+    /**
+     * Handles user registration
+     */
     private void registerUser() {
-        // Récupérer les informations d'inscription
+        // Retrieve input data
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         String confirmPassword = confirmPasswordEditText.getText().toString().trim();
 
-        // Validation des champs
-        if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            // Vous pouvez ajouter une logique pour afficher un message d'erreur
+        // Validate input data
+        if (!validateInputs(email, password, confirmPassword)) {
             return;
         }
 
-        if (!password.equals(confirmPassword)) {
-            // Afficher un message d'erreur si les mots de passe ne correspondent pas
-            return;
-        }
+        // TODO: Add registration logic here (e.g., Firebase or custom backend)
 
-        // Implémentez ici la logique d'inscription avec Firebase ou un autre backend
 
-        // Si l'inscription est réussie, naviguer vers la page de connexion
-        // startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+        // Navigate to login screen after successful registration
+        navigateToLogin();
     }
 
+    /**
+     * Validate user inputs
+     *
+     * @param email           The entered email
+     * @param password        The entered password
+     * @param confirmPassword The re-entered password
+     * @return true if all inputs are valid, false otherwise
+     */
+    private boolean validateInputs(String email, String password, String confirmPassword) {
+        boolean isValid = true;
+
+        // Reset errors
+        emailInputLayout.setError(null);
+        passwordInputLayout.setError(null);
+        confirmPasswordInputLayout.setError(null);
+
+        // Check if email is empty or invalid
+        if (TextUtils.isEmpty(email)) {
+            emailInputLayout.setError(getString(R.string.error_email_required));
+            isValid = false;
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailInputLayout.setError(getString(R.string.error_invalid_email));
+            isValid = false;
+        }
+
+        // Check if password is empty or too short
+        if (TextUtils.isEmpty(password)) {
+            passwordInputLayout.setError(getString(R.string.error_password_required));
+            isValid = false;
+        } else if (password.length() < 6) {
+            passwordInputLayout.setError(getString(R.string.error_password_too_short));
+            isValid = false;
+        }
+
+        // Check if passwords match
+        if (TextUtils.isEmpty(confirmPassword)) {
+            confirmPasswordInputLayout.setError(getString(R.string.error_confirm_password_required));
+            isValid = false;
+        } else if (!password.equals(confirmPassword)) {
+            confirmPasswordInputLayout.setError(getString(R.string.error_password_mismatch));
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Navigate to the login activity
+     */
     private void navigateToLogin() {
-        // Naviguer vers la page de connexion
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
     }

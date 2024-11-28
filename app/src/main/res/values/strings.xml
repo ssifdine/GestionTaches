@@ -17,12 +17,20 @@
     <string name="loogin">Login</string>
     <string name="login_icon">Login Icon</string>
     <string name="register">Register</string>
-    <string name="name">Name</string>
+    <string name="name">UserName</string>
     <string name="eemail">Email</string>
     <string name="passwordd">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="registere">Register</string>
     <string name="already_have_an_account_login">Already have an account? Login</string>
+    <string name="d_connexion">Déconnexion</string>
+
+    <string name="error_email_required">Email est requis.</string>
+    <string name="error_invalid_email">Veuillez entrer un email valide.</string>
+    <string name="error_password_required">Le mot de passe est requis.</string>
+    <string name="error_password_too_short">Le mot de passe doit contenir au moins 6 caractères.</string>
+    <string name="error_confirm_password_required">Veuillez confirmer votre mot de passe.</string>
+    <string name="error_password_mismatch">Les mots de passe ne correspondent pas.</string>
 
     <string-array name="task_status_array">
         <item>À faire</item>

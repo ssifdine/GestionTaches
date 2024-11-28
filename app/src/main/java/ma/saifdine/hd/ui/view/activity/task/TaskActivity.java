@@ -3,12 +3,14 @@ package ma.saifdine.hd.ui.view.activity.task;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,28 +42,38 @@ public class TaskActivity extends AppCompatActivity {
     private TaskViewModel taskViewModel;
     private FloatingActionButton fabAddTask;
     private TaskAdapter taskAdapter;
-    private Toolbar toolbar;
+    private Toolbar toolbar; // Référence pour la toolbar
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
-        // Initialisation de la Toolbar
+        auth = FirebaseAuth.getInstance();
+
+        // Initialisation de la Custom Toolbar
         initToolbar();
 
         initRecyclerView();
         initFloatingActionButton();
+        initLogoutButton();
         setupViewModel();
     }
 
     /**
-     * Méthode pour initialiser et configurer la Toolbar.
+     * Méthode pour initialiser et configurer la Custom Toolbar.
      */
     private void initToolbar() {
-        toolbar = findViewById(R.id.toolbar);
+        // Récupérer la référence de la Custom Toolbar
+        toolbar = findViewById(R.id.custom_toolbar);
+
+        // Configurer la Toolbar comme action bar
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.toolbar_title));  // Défini un titre à la Toolbar
+
+        // Optionnellement, définir un titre à la Toolbar
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        toolbarTitle.setText(getString(R.string.toolbar_title));
     }
 
     private void initRecyclerView() {
@@ -97,6 +110,9 @@ public class TaskActivity extends AppCompatActivity {
     private void initFloatingActionButton() {
         fabAddTask = findViewById(R.id.fab_add_task);
         fabAddTask.setOnClickListener(v -> showAddTaskDialog());
+    }
+
+    private void initLogoutButton() {
     }
 
     private void setupViewModel() {
@@ -140,62 +156,60 @@ public class TaskActivity extends AppCompatActivity {
         Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
 
         positiveButton.setTextColor(getResources().getColor(R.color.accent));
-        positiveButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        positiveButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
 
         negativeButton.setTextColor(getResources().getColor(R.color.error));
         negativeButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
     }
 
-    private void setupStatusSpinner(AutoCompleteTextView spinner) {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.task_status_array,
-                android.R.layout.simple_dropdown_item_1line
-        );
-        spinner.setAdapter(adapter);
+    private void setupStatusSpinner(AutoCompleteTextView statusSpinner) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.task_status_array));
+        statusSpinner.setAdapter(adapter);
     }
 
     private void showDatePickerDialog(EditText dateInput) {
         MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Sélectionnez une date")
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .setTitleText("Choisir une date")
                 .build();
-
-        datePicker.show(getSupportFragmentManager(), "DATE_PICKER");
         datePicker.addOnPositiveButtonClickListener(selection -> {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            String formattedDate = sdf.format(new Date(selection));
-            dateInput.setText(formattedDate);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            dateInput.setText(dateFormat.format(new Date(selection)));
         });
+        datePicker.show(getSupportFragmentManager(), "DATE_PICKER");
     }
 
     private void handleAddTask(EditText titleInput, EditText descriptionInput, EditText dateInput, AutoCompleteTextView statusSpinner) {
-        String title = titleInput.getText().toString().trim();
-        String description = descriptionInput.getText().toString().trim();
-        String dateString = dateInput.getText().toString().trim();
+        String title = titleInput.getText().toString();
+        String description = descriptionInput.getText().toString();
+        String date = dateInput.getText().toString();
         String status = statusSpinner.getText().toString();
 
-        if (title.isEmpty() || dateString.isEmpty()) {
-            Toast.makeText(this, "Le titre et la date sont obligatoires", Toast.LENGTH_SHORT).show();
-        } else {
-            Date dueDate = parseDate(dateString);
-            Task newTask = new Task(title, description, dueDate, status);
-            addTask(newTask);
-            Toast.makeText(this, "Tâche ajoutée avec succès", Toast.LENGTH_SHORT).show();
+        if (title.isEmpty() || description.isEmpty() || date.isEmpty() || status.isEmpty()) {
+            Toast.makeText(this, "Veuillez remplir tous les champs.", Toast.LENGTH_SHORT).show();
+            return;
         }
-    }
 
-    private Date parseDate(String dateString) {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            return sdf.parse(dateString);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            Date taskDate = dateFormat.parse(date);
+
+            Task newTask = new Task(title, description, taskDate, status);
+            taskViewModel.insert(newTask);
+            Toast.makeText(this, "Tâche ajoutée avec succès.", Toast.LENGTH_SHORT).show();
         } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
+            Toast.makeText(this, "Format de date invalide.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void addTask(Task task) {
-        taskViewModel.insert(task);
+    private void showLogoutDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Déconnexion")
+                .setMessage("Êtes-vous sûr de vouloir vous déconnecter ?")
+                .setPositiveButton("Oui", (dialog, which) -> {
+                    auth.signOut();
+                    finish();
+                })
+                .setNegativeButton("Non", null)
+                .show();
     }
 }
