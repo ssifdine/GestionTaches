@@ -6,10 +6,16 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+
 import ma.saifdine.hd.R;
+import ma.saifdine.hd.domaine.model.User;
+import ma.saifdine.hd.ui.viewmodel.AuthViewModel;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -19,10 +25,16 @@ public class RegisterActivity extends AppCompatActivity {
     private MaterialButton registerButton;
     private TextView loginLink;
 
+    // Déclaration des objets Firebase et ViewModel
+    private AuthViewModel authViewModel;
+    private FirebaseAuth firebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         // Initialize views
         initViews();
@@ -61,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         // TODO: Add registration logic here (e.g., Firebase or custom backend)
-
+        authViewModel.register(new User(email,password));
 
         // Navigate to login screen after successful registration
         navigateToLogin();

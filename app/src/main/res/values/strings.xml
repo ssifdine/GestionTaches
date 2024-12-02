@@ -31,6 +31,8 @@
     <string name="error_password_too_short">Le mot de passe doit contenir au moins 6 caractères.</string>
     <string name="error_confirm_password_required">Veuillez confirmer votre mot de passe.</string>
     <string name="error_password_mismatch">Les mots de passe ne correspondent pas.</string>
+    <string name="toolbar_icon_desc" />
+    <string name="recycler_view_title">Liste des tâches</string>
 
     <string-array name="task_status_array">
         <item>À faire</item>

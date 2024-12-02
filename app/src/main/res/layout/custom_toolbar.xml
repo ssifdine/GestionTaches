@@ -5,15 +5,25 @@
     android:layout_height="wrap_content"
     android:background="@color/accent"
     android:elevation="4dp"
-    android:padding="6dp">
+    android:padding="0dp">
+
+    <!-- Icône dans la toolbar -->
+    <ImageView
+        android:id="@+id/toolbar_icon"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/logo"
+        android:contentDescription="@string/toolbar_icon_desc"
+        android:layout_gravity="start"
+        android:padding="8dp" />
 
     <!-- Titre personnalisé dans la toolbar -->
-    <TextView
-        android:id="@+id/toolbar_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Titre Personnalisé"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:layout_gravity="center"/>
+<!--    <TextView-->
+<!--        android:id="@+id/toolbar_title"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Votre Titre"-->
+<!--        android:textColor="@android:color/white"-->
+<!--        android:textSize="20sp"-->
+<!--        android:layout_gravity="center"/>-->
 </androidx.appcompat.widget.Toolbar>

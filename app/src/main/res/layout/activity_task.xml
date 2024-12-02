@@ -8,14 +8,26 @@
     <!-- Inclure le Custom Toolbar -->
     <include
         android:id="@+id/custom_toolbar"
-        layout="@layout/custom_toolbar"/>
+        layout="@layout/custom_toolbar" />
+
+    <!-- TextView pour le titre de la liste -->
+    <TextView
+        android:id="@+id/recyclerViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/custom_toolbar"
+        android:layout_margin="16dp"
+        android:text="@string/recycler_view_title"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black" />
 
     <!-- RecyclerView pour afficher les tâches -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/custom_toolbar"
+        android:layout_below="@id/recyclerViewTitle"
         android:layout_above="@+id/footerLayout"
         android:padding="8dp" />
 
@@ -38,15 +50,5 @@
             android:src="@drawable/addtachexml"
             android:tint="@color/black"
             app:backgroundTint="@color/accent" />
-
-<!--        &lt;!&ndash; Bouton de déconnexion &ndash;&gt;-->
-<!--        <Button-->
-<!--            android:id="@+id/btn_logout"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/d_connexion"-->
-<!--            android:textColor="@android:color/white"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            android:background="@color/accent" />-->
     </LinearLayout>
 </RelativeLayout>

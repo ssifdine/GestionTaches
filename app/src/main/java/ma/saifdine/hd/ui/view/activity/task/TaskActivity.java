@@ -72,8 +72,8 @@ public class TaskActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Optionnellement, définir un titre à la Toolbar
-        TextView toolbarTitle = findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(getString(R.string.toolbar_title));
+//        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+//        toolbarTitle.setText(getString(R.string.toolbar_title));
     }
 
     private void initRecyclerView() {
