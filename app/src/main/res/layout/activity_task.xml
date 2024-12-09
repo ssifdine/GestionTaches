@@ -6,16 +6,17 @@
     android:padding="1dp">
 
     <!-- Inclure le Custom Toolbar -->
-    <include
-        android:id="@+id/custom_toolbar"
-        layout="@layout/custom_toolbar" />
+<!--    <include-->
+<!--        android:id="@+id/custom_toolbar"-->
+<!--        layout="@layout/custom_toolbar" />-->
 
     <!-- TextView pour le titre de la liste -->
+<!--    android:layout_below="@id/custom_toolbar"-->
     <TextView
         android:id="@+id/recyclerViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/custom_toolbar"
+
         android:layout_margin="16dp"
         android:text="@string/recycler_view_title"
         android:textSize="18sp"

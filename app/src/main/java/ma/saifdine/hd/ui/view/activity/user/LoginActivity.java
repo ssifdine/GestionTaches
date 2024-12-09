@@ -15,8 +15,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 import ma.saifdine.hd.R;
 import ma.saifdine.hd.domaine.model.User;
+import ma.saifdine.hd.ui.view.activity.drawer.DrawerActivity;
 import ma.saifdine.hd.ui.view.activity.task.TaskActivity;
 import ma.saifdine.hd.ui.viewmodel.AuthViewModel;
 
@@ -84,8 +87,8 @@ public class LoginActivity extends AppCompatActivity {
 
     // Connexion de l'utilisateur
     private void loginUser() {
-        String email = emailEditText.getText().toString().trim();
-        String password = passwordEditText.getText().toString().trim();
+        String email = Objects.requireNonNull(emailEditText.getText()).toString().trim();
+        String password = Objects.requireNonNull(passwordEditText.getText()).toString().trim();
 
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Veuillez entrer l'email et le mot de passe.", Toast.LENGTH_SHORT).show();
@@ -104,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // Navigation vers TaskActivity
     private void navigateToTaskActivity() {
-        Intent intent = new Intent(LoginActivity.this, TaskActivity.class);
+        Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
         startActivity(intent);
         finish(); // Fermer l'activité actuelle
     }

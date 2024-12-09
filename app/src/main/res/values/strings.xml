@@ -32,7 +32,16 @@
     <string name="error_confirm_password_required">Veuillez confirmer votre mot de passe.</string>
     <string name="error_password_mismatch">Les mots de passe ne correspondent pas.</string>
     <string name="toolbar_icon_desc" />
-    <string name="recycler_view_title">Liste des tâches</string>
+    <string name="recycler_view_title">La Liste des Taches</string>
+    <string name="mes_taches">mes taches</string>
+    <string name="mes_cartes">mes cartes</string>
+    <string name="mes_consommataions">mes consommations</string>
+    <string name="consultation_de_points">consultation de points</string>
+    <string name="recharge_e_recharge"> E-recharge</string>
+    <string name="nous_contacter">nous contacter</string>
+    <string name="deconnexion">deconnexion</string>
+    <string name="navigation_drawer_open" />
+    <string name="navigation_drawer_close" />
 
     <string-array name="task_status_array">
         <item>À faire</item>
