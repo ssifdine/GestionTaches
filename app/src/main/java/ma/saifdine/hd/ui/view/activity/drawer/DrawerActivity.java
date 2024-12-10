@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import ma.saifdine.hd.R;
+import ma.saifdine.hd.infra.utils.PrefUtils;
 
 public class DrawerActivity extends AppCompatActivity {
 
@@ -104,6 +105,6 @@ public class DrawerActivity extends AppCompatActivity {
     }
 
     private String getUserEmail() {
-        return "saif.dine@pcard.ma"; // Exemple d'email, vous pouvez remplacer cela par la vraie donnée
+        return PrefUtils.getInstance(this).read("user_email", "Email non disponible"); // Exemple d'email, vous pouvez remplacer cela par la vraie donnée
     }
 }
