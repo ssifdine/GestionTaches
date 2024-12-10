@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import android.view.View;
+import android.widget.TextView;
 
 import ma.saifdine.hd.R;
 
@@ -19,6 +20,9 @@ public class DrawerActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar customToolbar;
+
+    private TextView userName, userEmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,23 @@ public class DrawerActivity extends AppCompatActivity {
             drawerLayout.closeDrawers();
             return true;
         });
+
+        // Accédez à l'en-tête du NavigationView
+        View headerView = navigationView.getHeaderView(0);
+
+        // Récupérez les TextViews dans l'en-tête
+        userName = headerView.findViewById(R.id.user_name);
+        userEmail = headerView.findViewById(R.id.user_email);
+
+        // Modifiez dynamiquement les données utilisateur
+        String name = getUserName();  // Vous récupérez dynamiquement le nom
+        String email = getUserEmail(); // Vous récupérez dynamiquement l'email
+
+        // Mettez à jour les TextViews
+        if (userName != null && userEmail != null) {
+            userName.setText(name != null ? name : "Nom inconnu");
+            userEmail.setText(email != null ? email : "Email non disponible");
+        }
     }
 
     @Override
@@ -75,5 +96,14 @@ public class DrawerActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    // Méthodes simulées pour récupérer le nom et l'email de l'utilisateur
+    private String getUserName() {
+        return "Saif dine"; // Exemple de nom d'utilisateur, vous pouvez remplacer cela par la vraie donnée
+    }
+
+    private String getUserEmail() {
+        return "saif.dine@pcard.ma"; // Exemple d'email, vous pouvez remplacer cela par la vraie donnée
     }
 }

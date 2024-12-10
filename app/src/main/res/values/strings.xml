@@ -42,6 +42,7 @@
     <string name="deconnexion">deconnexion</string>
     <string name="navigation_drawer_open" />
     <string name="navigation_drawer_close" />
+    <string name="user_image_description" />
 
     <string-array name="task_status_array">
         <item>À faire</item>
