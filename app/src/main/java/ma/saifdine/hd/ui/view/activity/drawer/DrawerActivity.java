@@ -99,12 +99,12 @@ public class DrawerActivity extends AppCompatActivity {
         }
     }
 
-    // Méthodes simulées pour récupérer le nom et l'email de l'utilisateur
     private String getUserName() {
-        return "Saif dine"; // Exemple de nom d'utilisateur, vous pouvez remplacer cela par la vraie donnée
+        return PrefUtils.getInstance(this).read("user_name", "Username non disponible");
     }
 
+    // Méthodes simulées pour récupérer le nom et l'email de l'utilisateur
     private String getUserEmail() {
-        return PrefUtils.getInstance(this).read("user_email", "Email non disponible"); // Exemple d'email, vous pouvez remplacer cela par la vraie donnée
+        return PrefUtils.getInstance(this).read("user_email", "Email non disponible");
     }
 }

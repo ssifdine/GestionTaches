@@ -13,15 +13,13 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
 import ma.saifdine.hd.R;
 import ma.saifdine.hd.domaine.model.User;
 import ma.saifdine.hd.ui.view.activity.drawer.DrawerActivity;
-import ma.saifdine.hd.ui.view.activity.task.TaskActivity;
-import ma.saifdine.hd.ui.viewmodel.AuthViewModel;
+import ma.saifdine.hd.ui.viewmodel.user.AuthViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 

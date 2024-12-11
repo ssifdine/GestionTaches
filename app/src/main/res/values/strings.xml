@@ -25,6 +25,7 @@
     <string name="already_have_an_account_login">Already have an account? Login</string>
     <string name="d_connexion">Déconnexion</string>
 
+    <string name="error_username_required">Username est requis.</string>
     <string name="error_email_required">Email est requis.</string>
     <string name="error_invalid_email">Veuillez entrer un email valide.</string>
     <string name="error_password_required">Le mot de passe est requis.</string>
