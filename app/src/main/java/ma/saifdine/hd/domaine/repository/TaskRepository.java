@@ -45,6 +45,10 @@ public class TaskRepository {
         return taskDao.getTasksByStatus(status);
     }
 
+    public LiveData<List<Task>> getTasksByUserId(String userId){
+        return taskDao.getTasksByUserId(userId);
+    }
+
 
 
 }

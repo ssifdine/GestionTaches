@@ -12,7 +12,7 @@
         android:id="@+id/toolbar_icon"
         android:layout_width="46dp"
         android:layout_height="46dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/logoo"
         android:contentDescription="@string/toolbar_icon_desc"
         android:layout_gravity="start"
         android:padding="8dp" />

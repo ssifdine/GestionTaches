@@ -11,13 +11,23 @@ public class Task {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;
-    private String Description;
+    private String description;
     private Date dueDate; // Changer de String à Date
     private String status;
 
+    private String userId;
+
+    public Task(String title, String description, Date dueDate, String status, String userId) {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.status = status;
+        this.userId = userId;
+    }
+
     public Task(String title, String description, Date dueDate, String status) {
         this.title = title;
-        this.Description = description;
+        this.description = description;
         this.dueDate = dueDate;
         this.status = status;
     }
@@ -42,11 +52,11 @@ public class Task {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        description = description;
     }
 
     public Date getDueDate() {
@@ -63,5 +73,13 @@ public class Task {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

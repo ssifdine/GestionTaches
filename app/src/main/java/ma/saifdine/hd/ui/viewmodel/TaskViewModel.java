@@ -41,4 +41,8 @@ public class TaskViewModel extends AndroidViewModel {
     public LiveData<List<Task>> getTasksByStatus(String status){
         return taskRepository.getTasksByStatus(status);
     }
+
+    public LiveData<List<Task>> getTasksByUserId(String userId){
+        return taskRepository.getTasksByUserId(userId);
+    }
 }

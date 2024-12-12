@@ -25,6 +25,7 @@ import ma.saifdine.hd.ui.viewmodel.user.callback.UsernameCallback;
 
 public class AuthViewModel extends AndroidViewModel {
 
+    private static final String PREF_USER_ID = "user_id";
     private static final String PREF_USER_NAME = "user_name";
     private static final String PREF_USER_EMAIL = "user_email";
     private static final String PREF_USER_PASSWORD = "user_password";
@@ -173,6 +174,7 @@ public class AuthViewModel extends AndroidViewModel {
      * Saves the user's email and password in SharedPreferences.
      */
     private void saveUserCredentials(User user) {
+        prefUtils.write(PREF_USER_ID, Objects.requireNonNull(authRepository.getAuth().getCurrentUser()).getUid());
         prefUtils.write(PREF_USER_NAME, user.getUsername() != null ? user.getUsername() : "Unknown");
         prefUtils.write(PREF_USER_EMAIL, user.getEmail() != null ? user.getEmail() : "");
         prefUtils.write(PREF_USER_PASSWORD, user.getPassword() != null ? user.getPassword() : "");
@@ -182,6 +184,7 @@ public class AuthViewModel extends AndroidViewModel {
      * Clears the user's email and password from SharedPreferences.
      */
     private void clearUserCredentials() {
+        prefUtils.write(PREF_USER_ID,"");
         prefUtils.write(PREF_USER_NAME,"");
         prefUtils.write(PREF_USER_EMAIL, "");
         prefUtils.write(PREF_USER_PASSWORD, "");

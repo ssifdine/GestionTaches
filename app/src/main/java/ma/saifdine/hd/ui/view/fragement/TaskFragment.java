@@ -33,6 +33,7 @@ import java.util.Objects;
 
 import ma.saifdine.hd.R;
 import ma.saifdine.hd.domaine.model.Task;
+import ma.saifdine.hd.infra.utils.PrefUtils;
 import ma.saifdine.hd.ui.view.activity.task.TaskActivity;
 import ma.saifdine.hd.ui.view.activity.task.TaskAdapter;
 import ma.saifdine.hd.ui.view.activity.task.listenner.OnTaskClickListener;
@@ -44,6 +45,9 @@ public class TaskFragment extends Fragment {
     private TaskViewModel taskViewModel;
     private FloatingActionButton fabAddTask;
     private TaskAdapter taskAdapter;
+
+    private static final String PREF_USER_ID = "user_id";
+    private String userId;
 
     @Nullable
     @Override
@@ -120,8 +124,9 @@ public class TaskFragment extends Fragment {
     }
 
     private void setupViewModel() {
+        userId = PrefUtils.getInstance(requireContext()).read(PREF_USER_ID, "Identfiant non disponible");
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
-        taskViewModel.getAllTasks().observe(requireActivity(), tasks -> {
+        taskViewModel.getTasksByUserId(userId).observe(requireActivity(), tasks -> {
             if (tasks != null) {
                 taskAdapter.setTasks(tasks);
             }
@@ -159,7 +164,7 @@ public class TaskFragment extends Fragment {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             Date taskDate = dateFormat.parse(date);
 
-            Task newTask = new Task(title, description, taskDate, status);
+            Task newTask = new Task(title, description, taskDate, status,userId);
             taskViewModel.insert(newTask);
             Toast.makeText(getContext(), "Tâche ajoutée avec succès.", Toast.LENGTH_SHORT).show();
         } catch (ParseException e) {

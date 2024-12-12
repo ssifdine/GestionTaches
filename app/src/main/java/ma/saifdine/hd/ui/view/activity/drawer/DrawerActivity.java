@@ -43,7 +43,6 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
 
     // Constants for preference keys
-    private static final String PREF_USER_NAME = "user_name";
     private static final String PREF_USER_EMAIL = "user_email";
 
     @Override

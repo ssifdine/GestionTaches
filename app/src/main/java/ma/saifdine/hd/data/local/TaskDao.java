@@ -28,4 +28,7 @@ public interface TaskDao {
 
     @Query("SELECT * FROM tasks WHERE status = :status")
     LiveData<List<Task>> getTasksByStatus(String status);
+
+    @Query("SELECT * FROM tasks WHERE userId = :userId")
+    LiveData<List<Task>> getTasksByUserId(String userId);
 }
