@@ -1,6 +1,7 @@
 package ma.saifdine.hd.ui.view.activity.drawer;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -20,10 +22,13 @@ import com.google.android.material.navigation.NavigationView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ma.saifdine.hd.R;
 import ma.saifdine.hd.infra.utils.PrefUtils;
+import ma.saifdine.hd.ui.view.activity.user.LoginActivity;
 import ma.saifdine.hd.ui.view.fragement.TaskFragment;
+import ma.saifdine.hd.ui.view.fragement.TypeFragment;
 import ma.saifdine.hd.ui.viewmodel.user.AuthViewModel;
 
 public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -32,7 +37,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar customToolbar;
-    private TextView userName, userEmail;
+    private TextView userName, userEmail, logOut;
 
     private AuthViewModel authViewModel;
 
@@ -51,6 +56,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         setupDrawer();
         updateUserInfo();
         setupViewModel();
+        logout();
     }
 
     // Initialize views and components
@@ -63,6 +69,10 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         View headerView = navigationView.getHeaderView(0);
         userName = headerView.findViewById(R.id.user_name);
         userEmail = headerView.findViewById(R.id.user_email);
+
+        logOut = findViewById(R.id.nav_logout);
+
+
     }
 
     private void setupViewModel() {
@@ -92,19 +102,17 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
         // Customize hamburger icon color
         Drawable drawerIcon = toggle.getDrawerArrowDrawable();
-        if (drawerIcon != null) {
-            drawerIcon.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_ATOP);
-        }
+        drawerIcon.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_ATOP);
 
-        // Handle navigation menu item clicks
-        navigationView.setNavigationItemSelectedListener(menuItem -> {
-            drawerLayout.closeDrawers();
-            return true;
-        });
+        // Register the listener here
+        navigationView.setNavigationItemSelectedListener(this);
+
+        // Set the default fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         TaskFragment fragment = new TaskFragment();
         fragmentManager.beginTransaction().replace(R.id.frameLayout, fragment).commit();
     }
+
 
     // Update user information in the drawer header
     private void updateUserInfo() {
@@ -132,11 +140,29 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.nav_tache:
-                replaceFragment(new TaskFragment());
-                break;
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+        if (item.getItemId() == R.id.nav_tache) {
+            replaceFragment(new TaskFragment());
+        } else if (item.getItemId() == R.id.nav_type) {
+            replaceFragment(new TypeFragment());
         }
-        return false;
+        return true;
     }
+
+    private void logout(){
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                authViewModel.logout();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                Toast.makeText(DrawerActivity.this,"logout",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(DrawerActivity.this, LoginActivity.class);
+                startActivity(intent);
+
+            }
+        });
+    }
+
+
 }

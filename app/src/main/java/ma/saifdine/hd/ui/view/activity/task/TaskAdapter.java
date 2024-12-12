@@ -1,5 +1,6 @@
 package ma.saifdine.hd.ui.view.activity.task;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,6 +102,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskViewHolder> {
      *
      * @param tasks Nouvelle liste des tâches.
      */
+    @SuppressLint("NotifyDataSetChanged")
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
         notifyDataSetChanged(); // Rafraîchit l'ensemble des données affichées
