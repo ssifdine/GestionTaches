@@ -1,5 +1,6 @@
 package ma.saifdine.hd.ui.view.activity.drawer;
 
+import android.annotation.SuppressLint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,48 +10,79 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.material.navigation.NavigationView;
+
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import ma.saifdine.hd.R;
 import ma.saifdine.hd.infra.utils.PrefUtils;
+import ma.saifdine.hd.ui.view.fragement.TaskFragment;
+import ma.saifdine.hd.ui.viewmodel.user.AuthViewModel;
 
-public class DrawerActivity extends AppCompatActivity {
+public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    // UI Components
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar customToolbar;
-
     private TextView userName, userEmail;
 
+    private AuthViewModel authViewModel;
+
+
+    // Constants for preference keys
+    private static final String PREF_USER_NAME = "user_name";
+    private static final String PREF_USER_EMAIL = "user_email";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
 
-        // Link the custom toolbar
+        initViews();
+        setupToolbar();
+        setupDrawer();
+        updateUserInfo();
+        setupViewModel();
+    }
+
+    // Initialize views and components
+    private void initViews() {
         customToolbar = findViewById(R.id.custom_toolbar);
-        setSupportActionBar(customToolbar);
-
-        // Set the navigation icon (menu icon) programmatically
-        customToolbar.setNavigationIcon(R.drawable.menuu);
-
-        // Set the behavior for the navigation icon (it should open the drawer when clicked)
-        customToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Open the drawer when the navigation icon (menu) is clicked
-                drawerLayout.openDrawer(navigationView);
-            }
-        });
-
-        // Configure the DrawerLayout and NavigationView
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
-        // Add ActionBarDrawerToggle for syncing the drawer state with the toolbar
+        // Access header views from NavigationView
+        View headerView = navigationView.getHeaderView(0);
+        userName = headerView.findViewById(R.id.user_name);
+        userEmail = headerView.findViewById(R.id.user_email);
+    }
+
+    private void setupViewModel() {
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        authViewModel.getCurrentUserDetails().observe(this, user -> {
+            if (user != null) {
+                userName.setText(user.getUsername() != null ? user.getUsername() : "Nom inconnu");
+            }
+        });
+    }
+
+    // Configure the custom toolbar
+    private void setupToolbar() {
+        setSupportActionBar(customToolbar);
+        customToolbar.setNavigationIcon(R.drawable.menuu);
+        customToolbar.setNavigationOnClickListener(v -> drawerLayout.openDrawer(navigationView));
+    }
+
+    // Set up the drawer layout and navigation
+    private void setupDrawer() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, customToolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -58,40 +90,31 @@ public class DrawerActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        // Modifier la couleur de l'icône du hamburger
+        // Customize hamburger icon color
         Drawable drawerIcon = toggle.getDrawerArrowDrawable();
         if (drawerIcon != null) {
             drawerIcon.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_ATOP);
         }
 
-        // Handle navigation menu clicks
+        // Handle navigation menu item clicks
         navigationView.setNavigationItemSelectedListener(menuItem -> {
-            // Handle menu item clicks
             drawerLayout.closeDrawers();
             return true;
         });
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        TaskFragment fragment = new TaskFragment();
+        fragmentManager.beginTransaction().replace(R.id.frameLayout, fragment).commit();
+    }
 
-        // Accédez à l'en-tête du NavigationView
-        View headerView = navigationView.getHeaderView(0);
+    // Update user information in the drawer header
+    private void updateUserInfo() {
+        String email = PrefUtils.getInstance(this).read(PREF_USER_EMAIL, "Email non disponible");
 
-        // Récupérez les TextViews dans l'en-tête
-        userName = headerView.findViewById(R.id.user_name);
-        userEmail = headerView.findViewById(R.id.user_email);
-
-        // Modifiez dynamiquement les données utilisateur
-        String name = getUserName();  // Vous récupérez dynamiquement le nom
-        String email = getUserEmail(); // Vous récupérez dynamiquement l'email
-
-        // Mettez à jour les TextViews
-        if (userName != null && userEmail != null) {
-            userName.setText(name != null ? name : "Nom inconnu");
-            userEmail.setText(email != null ? email : "Email non disponible");
-        }
+        if (userEmail != null) userEmail.setText(email);
     }
 
     @Override
     public void onBackPressed() {
-        // Close the drawer if it's open
         if (drawerLayout.isDrawerOpen(navigationView)) {
             drawerLayout.closeDrawer(navigationView);
         } else {
@@ -99,12 +122,21 @@ public class DrawerActivity extends AppCompatActivity {
         }
     }
 
-    private String getUserName() {
-        return PrefUtils.getInstance(this).read("user_name", "Username non disponible");
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.commit();
     }
 
-    // Méthodes simulées pour récupérer le nom et l'email de l'utilisateur
-    private String getUserEmail() {
-        return PrefUtils.getInstance(this).read("user_email", "Email non disponible");
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.nav_tache:
+                replaceFragment(new TaskFragment());
+                break;
+        }
+        return false;
     }
 }

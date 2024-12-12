@@ -129,6 +129,29 @@ public class AuthViewModel extends AndroidViewModel {
                 });
     }
 
+    public LiveData<User> getCurrentUserDetails() {
+        MutableLiveData<User> userDetails = new MutableLiveData<>();
+
+            String userId = Objects.requireNonNull(authRepository.getAuth().getCurrentUser()).getUid();
+
+            authRepository.getDatabase().child("users").child(userId)
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            User user = snapshot.getValue(User.class);
+                            if (user != null) {
+                                userDetails.setValue(user);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Log errors or handle them as needed
+                        }
+                    });
+        return userDetails;
+    }
+
     private void saveUsernameToDatabase(String userId, String username) {
         // Créer un objet pour stocker les informations utilisateur
         Map<String, Object> userMap = new HashMap<>();
