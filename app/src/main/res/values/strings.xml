@@ -50,8 +50,11 @@
         <item>En cours</item>
         <item>Terminé</item>
     </string-array>
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="mes_types">mes types</string>
     <string name="logout">logout</string>
+    <string name="mon_compte">Mon Compte</string>
+    <string name="changer_email">Changer Email</string>
+    <string name="changer_password">Changer password</string>
 </resources>

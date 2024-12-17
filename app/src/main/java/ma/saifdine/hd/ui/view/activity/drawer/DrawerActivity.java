@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
 
 import android.view.MenuItem;
@@ -26,7 +27,9 @@ import android.widget.Toast;
 
 import ma.saifdine.hd.R;
 import ma.saifdine.hd.infra.utils.PrefUtils;
+import ma.saifdine.hd.ui.view.activity.user.CompteActivity;
 import ma.saifdine.hd.ui.view.activity.user.LoginActivity;
+import ma.saifdine.hd.ui.view.fragement.CompteFragement;
 import ma.saifdine.hd.ui.view.fragement.TaskFragment;
 import ma.saifdine.hd.ui.view.fragement.TypeFragment;
 import ma.saifdine.hd.ui.viewmodel.user.AuthViewModel;
@@ -38,6 +41,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     private NavigationView navigationView;
     private Toolbar customToolbar;
     private TextView userName, userEmail, logOut;
+    private ShapeableImageView imageView;
 
     private AuthViewModel authViewModel;
 
@@ -66,12 +70,20 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
         // Access header views from NavigationView
         View headerView = navigationView.getHeaderView(0);
+        imageView = headerView.findViewById(R.id.user_image);
         userName = headerView.findViewById(R.id.user_name);
         userEmail = headerView.findViewById(R.id.user_email);
+
+        imageView.setOnClickListener(v->navigateToCompte());
 
         logOut = findViewById(R.id.nav_logout);
 
 
+    }
+
+    private void navigateToCompte(){
+        replaceFragment(new CompteFragement());
+        drawerLayout.closeDrawer(GravityCompat.START);
     }
 
     private void setupViewModel() {
