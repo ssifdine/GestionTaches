@@ -57,4 +57,5 @@
     <string name="mon_compte">Mon Compte</string>
     <string name="changer_email">Changer Email</string>
     <string name="changer_password">Changer password</string>
+    <string name="changer_mot_de_passe">Changer Mot de passe</string>
 </resources>

@@ -55,6 +55,7 @@ dependencies {
 
     // Dépendance pour FloatingActionButton
     implementation(libs.material.v190)
+    implementation(libs.viewpager2)
 
     implementation(libs.glide)
     annotationProcessor(libs.compiler)
