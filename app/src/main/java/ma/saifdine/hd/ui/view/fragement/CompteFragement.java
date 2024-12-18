@@ -12,15 +12,24 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.android.material.textview.MaterialTextView;
+
+import java.util.Objects;
 
 import ma.saifdine.hd.R;
+import ma.saifdine.hd.infra.utils.PrefUtils;
 import ma.saifdine.hd.ui.view.fragement.adapter.ComptePagerAdapter;
 
 public class CompteFragement extends Fragment {
 
+    // Constants for preference keys
+    private static final String PREF_USER_EMAIL = "user_email";
+    private static final String PREF_USER_NAME = "user_name";
+
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
     private ComptePagerAdapter pagerAdapter;
+    private MaterialTextView materialTextViewUsername, materialTextViewEmail;
 
     @Nullable
     @Override
@@ -29,6 +38,12 @@ public class CompteFragement extends Fragment {
         // Initialisation des vues
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
+
+        materialTextViewUsername = view.findViewById(R.id.usernameId);
+        materialTextViewEmail = view.findViewById(R.id.emailId);
+
+        getUserInfo();
+
 
         // Configuration du ViewPager2
         pagerAdapter = new ComptePagerAdapter(requireActivity());
@@ -47,5 +62,14 @@ public class CompteFragement extends Fragment {
                     }
                 }).attach();
         return view;
+    }
+
+    // Get user information
+    private void getUserInfo() {
+        String email = PrefUtils.getInstance(requireContext()).read(PREF_USER_EMAIL, "Email non disponible");
+        String username = PrefUtils.getInstance(requireContext()).read(PREF_USER_NAME,"Username non disponible");
+
+        if (materialTextViewUsername != null) materialTextViewUsername.setText(username);
+        if (materialTextViewEmail != null) materialTextViewEmail.setText(email);
     }
 }
