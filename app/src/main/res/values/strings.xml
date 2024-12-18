@@ -64,4 +64,5 @@
     <string name="mot_de_passe_actuel">Mot de passe Actuel</string>
     <string name="nouveau_mot_de_passe">nouveau Mot de passe</string>
     <string name="confirmez_mot_de_passe">Confirmez Mot de passe</string>
+    <string name="mot_de_passe">mot de passe</string>
 </resources>

@@ -9,6 +9,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -90,6 +92,31 @@ public class AuthViewModel extends AndroidViewModel {
                         errorMessage.setValue(Objects.requireNonNull(task.getException()).getMessage());
                     }
                 });
+    }
+
+    public void changeEmail(String newEmail, String currentPassword) {
+        FirebaseUser user = authRepository.getAuth().getCurrentUser();
+        if(user != null){
+            AuthCredential credential = EmailAuthProvider.getCredential(Objects.requireNonNull(user.getEmail()),currentPassword);
+            user.reauthenticate(credential).addOnCompleteListener(task -> {
+                if(task.isSuccessful()){
+                    user.updateEmail(newEmail).addOnCompleteListener(updateTask -> {
+                        if (updateTask.isSuccessful()) {
+                            // Succès
+                            System.out.println("Email mis à jour avec succès.");
+                        } else {
+                            // Gestion des erreurs
+                            System.out.println("Erreur lors de la mise à jour de l'email : " + updateTask.getException().getMessage());
+                        }
+                    });
+                } else {
+                    // Gestion des erreurs de ré-authentification
+                    System.out.println("Erreur de ré-authentification : " + task.getException().getMessage());
+                }
+            });
+        } else {
+            System.out.println("Aucun utilisateur connecté.");
+        }
     }
 
     /**
