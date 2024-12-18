@@ -6,12 +6,13 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:padding="1dp"
     tools:context=".ui.view.activity.user.CompteActivity">
 
-    <!-- Titre de la vue -->
+    <!-- Titre principal de la vue -->
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/CompteViewTitle"
+        android:id="@+id/CompteViewTitle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -21,90 +22,101 @@
         android:textColor="@color/black"
         app:fontFamily="sans-serif-medium" />
 
-    <!-- Layout contenant l'image utilisateur -->
-    <LinearLayout
-        android:id="@+id/linear1"
+    <!-- ScrollView pour rendre le contenu défilable -->
+    <ScrollView
+        android:id="@+id/scrollableContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/CompteViewTitle"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:layout_height="match_parent"
+        android:layout_below="@id/CompteViewTitle1"
+        android:fillViewport="true">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:layout_gravity="center"
-            app:cardCornerRadius="70dp"
-            app:cardElevation="4dp">
+        <!-- Conteneur principal -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/user_image"
+            <!-- Section de l'image utilisateur -->
+            <LinearLayout
+                android:id="@+id/linear1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/user"
-                app:shapeAppearanceOverlay="@style/CircularImage" />
-        </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
 
-    <!-- Layout contenant le nom d'utilisateur et l'email -->
-    <LinearLayout
-        android:id="@+id/linear2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/linear1"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginTop="10dp">
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_gravity="center"
+                    app:cardCornerRadius="70dp"
+                    app:cardElevation="4dp">
 
-        <!-- Nom d'utilisateur -->
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/usernameId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="UserName"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            app:fontFamily="sans-serif-medium" />
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/user_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/user"
+                        app:shapeAppearanceOverlay="@style/CircularImage" />
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
-        <!-- Email -->
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/emailId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="email@gmail.com"
-            android:textStyle="normal"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="5dp"
-            app:fontFamily="sans-serif-light" />
-    </LinearLayout>
+            <!-- Section pour le nom d'utilisateur et l'email -->
+            <LinearLayout
+                android:id="@+id/linear2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="10dp">
 
-    <LinearLayout
-        android:id="@+id/tabLayoutContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/linear2"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp">
+                <!-- Nom d'utilisateur -->
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/usernameId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UserName"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    app:fontFamily="sans-serif-medium" />
 
-        <!-- TabLayout -->
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:tabIndicatorColor="@color/accent"
-            app:tabTextColor="@color/black"
-            app:tabSelectedTextColor="@color/accent" />
+                <!-- Email -->
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/emailId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="email@gmail.com"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="5dp"
+                    app:fontFamily="sans-serif-light" />
+            </LinearLayout>
 
-        <!-- ViewPager2 pour le contenu des onglets -->
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            <!-- Section pour le TabLayout et le ViewPager -->
+            <LinearLayout
+                android:id="@+id/tabLayoutContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
 
+                <!-- TabLayout -->
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    app:tabIndicatorColor="@color/accent"
+                    app:tabTextColor="@color/black"
+                    app:tabSelectedTextColor="@color/accent" />
 
-
+                <!-- ViewPager2 pour afficher le contenu des onglets -->
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

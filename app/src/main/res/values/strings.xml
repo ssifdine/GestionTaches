@@ -58,4 +58,10 @@
     <string name="changer_email">Changer Email</string>
     <string name="changer_password">Changer password</string>
     <string name="changer_mot_de_passe">Changer Mot de passe</string>
+    <string name="enregistrer">Enregistrer</string>
+    <string name="nouveau_email">nouveau Email</string>
+    <string name="current_password">Current Password</string>
+    <string name="mot_de_passe_actuel">Mot de passe Actuel</string>
+    <string name="nouveau_mot_de_passe">nouveau Mot de passe</string>
+    <string name="confirmez_mot_de_passe">Confirmez Mot de passe</string>
 </resources>
